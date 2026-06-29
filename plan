@@ -36,3 +36,62 @@ View event details
 View all events created by the user
 View upcoming events
 Event Fields
+
+
+FILE STRUCTURES
+FOR FRONTEND:-
+frontend/
+│
+├── src/
+│   ├── components/
+│   │   ├── Navbar.jsx
+│   │   ├── EventCard.jsx
+│   │   └── ProtectedRoute.jsx
+│   │
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── CreateEvent.jsx
+│   │   ├── EventDetails.jsx
+│   │   └── MyEvents.jsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx
+│   │
+│   ├── api/
+│   │   └── axios.js
+│   │
+│   ├── App.jsx
+│   └── main.jsx
+│
+├── package.json
+└── .env
+
+
+BACKEND FILE STRUCTURE
+
+
+backend/
+│
+├── config/
+│   └── db.js
+│
+├── controllers/
+│   ├── authController.js
+│   └── eventController.js
+│
+├── middleware/
+│   └── authMiddleware.js
+│
+├── models/
+│   ├── User.js
+│   └── Event.js
+│
+├── routes/
+│   ├── authRoutes.js
+│   └── eventRoutes.js
+│
+├── server.js
+├── package.json
+└── .env
