@@ -1,20 +1,39 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEvents } from "../context/EventContext";
 
-function CreateEvent() {
+function EditEvent() {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { addEvent } = useEvents();
+
+  const { events, updateEvent } = useEvents();
+
+  const event = events.find((item) => item.id === id);
 
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    date: "",
-    time: "",
-    location: "",
-    category: "Social",
-    visibility: "Private",
+    title: event?.title || "",
+    description: event?.description || "",
+    date: event?.date || "",
+    time: event?.time || "",
+    location: event?.location || "",
+    category: event?.category || "Social",
+    visibility: event?.visibility || "Private",
   });
+
+  if (!event) {
+    return (
+      <div className="max-w-6xl mx-auto px-6 py-10">
+        <h1 className="text-3xl font-bold text-slate-900">Event not found</h1>
+
+        <Link
+          to="/events"
+          className="inline-block mt-5 text-indigo-600 font-medium"
+        >
+          Back to Events
+        </Link>
+      </div>
+    );
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -26,7 +45,8 @@ function CreateEvent() {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();//prevents the reload 
+    e.preventDefault();
+
     if (
       !formData.title ||
       !formData.description ||
@@ -38,18 +58,22 @@ function CreateEvent() {
       return;
     }
 
-    addEvent(formData);
+    updateEvent(id, formData);
 
-    navigate("/events");
+    navigate(`/events/${id}`);
   }
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
-      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-        <h1 className="text-3xl font-bold text-slate-900">Create Event</h1>
+      <Link to={`/events/${id}`} className="text-indigo-600 font-medium">
+        ← Back to Event
+      </Link>
+
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mt-6">
+        <h1 className="text-3xl font-bold text-slate-900">Edit Event</h1>
 
         <p className="text-slate-600 mt-2">
-          Add details for your new event.
+          Update your event details.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5">
@@ -66,6 +90,7 @@ function CreateEvent() {
               className="mt-2 w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
+
           <div>
             <label className="block text-sm font-medium text-slate-700">
               Description
@@ -157,16 +182,26 @@ function CreateEvent() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
-          >
-            Save Event
-          </button>
+          <div className="flex flex-col md:flex-row gap-4">
+            <button
+              type="submit"
+              className="flex-1 bg-indigo-600 text-white py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
+            >
+              Update Event
+            </button>
+
+            <button
+              type="button"
+              onClick={() => navigate(`/events/${id}`)}
+              className="flex-1 bg-slate-100 text-slate-800 py-3 rounded-xl font-medium hover:bg-slate-200 transition"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 }
 
-export default CreateEvent;
+export default EditEvent;
