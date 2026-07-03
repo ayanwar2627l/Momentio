@@ -77,10 +77,19 @@ export function EventProvider({ children }) {
   function deleteEvent(id) {
     setEvents((prevEvents) => prevEvents.filter((event) => event.id !== id));
   }
-  function updateEvent(id,updatedData){
-    setEvents((prevEvents)=>{
-      prevEvents.map((event)=>event.id===id?{...event,...updatedData}:event)//ternay will update the event with updatedData else event data
-    });
+
+  function updateEvent(id, updatedData) {
+    setEvents((prevEvents) =>
+      prevEvents.map((event) =>
+        event.id === id
+          ? {
+              ...event,
+              ...updatedData,
+              id: event.id,
+            }
+          : event
+      )
+    );
   }
 
   function updateRsvp(id, rsvpStatus) {

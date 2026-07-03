@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Home() {
   return (
     <section className="min-h-[calc(100vh-80px)] flex items-center">
@@ -17,19 +19,19 @@ function Home() {
           </p>
 
           <div className="mt-8 flex gap-4">
-            <a
-              href="/register"
+            <Link
+              to="/register"
               className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
             >
               Get Started
-            </a>
+            </Link>
 
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="border border-slate-300 px-6 py-3 rounded-xl font-medium hover:bg-slate-100 transition"
             >
               Login
-            </a>
+            </Link>
           </div>
         </div>
 

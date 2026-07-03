@@ -106,33 +106,30 @@ function EventDetails() {
           <div className="flex flex-col md:flex-row gap-4 mt-4">
             <button
               onClick={() => updateRsvp(event.id, "Going")}
-              className={`px-6 py-3 rounded-xl font-medium transition ${
-                event.rsvp === "Going"
+              className={`px-6 py-3 rounded-xl font-medium transition ${event.rsvp === "Going"
                   ? "bg-indigo-600 text-white"
                   : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
-              }`}
+                }`}
             >
               Going
             </button>
 
             <button
               onClick={() => updateRsvp(event.id, "Maybe")}
-              className={`px-6 py-3 rounded-xl font-medium transition ${
-                event.rsvp === "Maybe"
+              className={`px-6 py-3 rounded-xl font-medium transition ${event.rsvp === "Maybe"
                   ? "bg-yellow-500 text-white"
                   : "bg-yellow-50 text-yellow-700 hover:bg-yellow-100"
-              }`}
+                }`}
             >
               Maybe
             </button>
 
             <button
               onClick={() => updateRsvp(event.id, "Not Going")}
-              className={`px-6 py-3 rounded-xl font-medium transition ${
-                event.rsvp === "Not Going"
+              className={`px-6 py-3 rounded-xl font-medium transition ${event.rsvp === "Not Going"
                   ? "bg-red-600 text-white"
                   : "bg-red-50 text-red-600 hover:bg-red-100"
-              }`}
+                }`}
             >
               Not Going
             </button>
@@ -140,6 +137,13 @@ function EventDetails() {
         </div>
 
         <div className="border-t border-slate-200 mt-10 pt-6 flex flex-col md:flex-row gap-4">
+          <Link
+            to={`/edit-event/${event.id}`}
+            className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition text-center"
+          >
+            Edit Event
+          </Link>
+
           <button
             onClick={handleDelete}
             className="bg-red-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-red-700 transition"
