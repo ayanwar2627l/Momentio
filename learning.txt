@@ -1,0 +1,15 @@
+RESTFUL API
+Definition: A web API that strictly follows the REST (Representational State Transfer) architectural style.
+
+Statelessness: The server stores no session data between requests. Every single request from the client must contain all the information needed to process it.
+
+Standard HTTP Methods: It maps CRUD (Create, Read, Update, Delete) operations to standard verbs:
+GET: Retrieve data.
+POST: Create new data.
+PUT/PATCH: Update existing data.
+DELETE: Remove data.
+
+Uniform Interface: Uses standardized URLs (endpoints) to access resources (e.g., /api/users/123).
+Client-Server Architecture: The frontend (client) and backend (server) operate independently. Changing one does not break the other.
+Data Format: Primarily uses JSON for sending and receiving data, making it lightweight and fast.
+Cacheability: Responses indicate whether the client can cache (store) the data to improve performance and reduce server load.
