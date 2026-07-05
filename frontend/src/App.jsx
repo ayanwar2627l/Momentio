@@ -10,6 +10,7 @@ import CreateEvent from "./pages/CreateEvent";
 import Events from "./pages/Events";
 import EventDetails from "./pages/EventDetails";
 import EditEvent from "./pages/EditEvent";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </>
   );
