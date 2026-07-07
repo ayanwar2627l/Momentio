@@ -1,0 +1,351 @@
+1. What is MongoDB?
+
+Answer:
+
+MongoDB is a NoSQL document-oriented database. It stores data in JSON-like documents (internally as BSON) instead of
+tables and rows, making it flexible for handling unstructured or semi-structured data.
+
+2. Why is MongoDB called a NoSQL database?
+
+Answer:
+
+Because it does not store data in relational tables. Instead, it stores data as documents inside collections.
+
+3. How is data stored in MongoDB?
+
+Answer:
+
+Data is stored as documents inside collections. Collections belong to a database. Internally, MongoDB converts documents
+into BSON and stores them in database files on disk.
+
+4. What is a document?
+
+Answer:
+
+A document is a set of key-value pairs.
+
+Example:
+
+{
+"name": "Aryan",
+"age": 21,
+"branch": "CSE"
+}
+
+Similar to one row in SQL.
+
+5. What is a collection?
+
+Answer:
+
+A collection is a group of related documents.
+
+Example:
+
+students
+├── Aryan
+├── Rahul
+└── Priya
+
+Comparable to a table in SQL.
+
+6. Difference between Collection and Table?
+SQL MongoDB
+Table Collection
+Row Document
+Column Field
+Fixed schema Flexible schema
+7. What is BSON?
+
+Answer:
+
+BSON stands for Binary JSON.
+
+MongoDB stores documents internally as BSON because it is more efficient for storage and querying than plain JSON.
+
+8. What is the _id field?
+
+Answer:
+
+Every MongoDB document has a unique _id.
+
+If you don't provide one, MongoDB generates it automatically.
+
+Example:
+
+{
+"_id": ObjectId("6891..."),
+"name":"Aryan"
+}
+9. What is an ObjectId?
+
+Answer:
+
+ObjectId is MongoDB's default unique identifier for documents. It is automatically generated and ensures each document
+can be uniquely identified.
+
+10. How do you insert data?
+db.students.insertOne({
+name:"Aryan",
+age:21
+})
+
+For multiple documents:
+
+db.students.insertMany([
+{name:"A"},
+{name:"B"}
+])
+11. How do you retrieve data?
+
+All documents:
+
+db.students.find()
+
+One document:
+
+db.students.findOne({
+name:"Aryan"
+})
+12. Difference between find() and findOne()?
+
+find()
+
+Returns all matching documents.
+
+findOne()
+
+Returns only the first matching document.
+
+13. How do you update data?
+db.students.updateOne(
+{name:"Aryan"},
+{$set:{age:22}}
+)
+14. How do you delete data?
+db.students.deleteOne({
+name:"Aryan"
+})
+15. What is schema-less?
+
+Answer:
+
+MongoDB does not require every document in a collection to have the same fields.
+
+Example:
+
+{
+"name":"Aryan",
+"age":21
+}
+{
+"name":"Rahul",
+"branch":"CSE",
+"skills":["Java","React"]
+}
+
+Both documents can exist in the same collection.
+
+16. Why use MongoDB instead of SQL?
+
+Possible points:
+
+Flexible schema
+Easy to store nested data
+Faster development
+Good for large-scale applications
+Easy horizontal scaling
+17. When would you choose SQL instead?
+
+When:
+
+Data has many relationships.
+ACID transactions are critical.
+Complex joins are needed.
+
+Examples:
+
+Banking
+Payroll
+Accounting
+18. Difference between SQL and MongoDB?
+SQL MongoDB
+Tables Collections
+Rows Documents
+Columns Fields
+Fixed schema Flexible schema
+JOIN support Embeds documents or uses references (MongoDB also supports $lookup for join-like operations)
+Structured data Semi-structured data
+19. What are CRUD operations?
+Create → insertOne()
+Read → find()
+Update → updateOne()
+Delete → deleteOne()
+20. How did you use MongoDB in your project?
+
+This is one of the most important questions.
+
+Example answer:
+
+"In my MERN project, MongoDB was used as the backend database. We stored user information, event details, bookings, and
+authentication data. The Express server interacted with MongoDB using Mongoose. Whenever a user registered or booked an
+event, the backend validated the request and stored the data as documents in the appropriate collections."
+
+21. What is Mongoose?
+
+Answer:
+
+Mongoose is an ODM (Object Data Modeling) library for Node.js that provides schemas, validation, middleware, and an
+easier way to interact with MongoDB.
+
+Example:
+
+const userSchema = new mongoose.Schema({
+name: String,
+email: String
+});
+22. Why use Mongoose instead of the MongoDB driver?
+
+Because it provides:
+
+Schema validation
+Middleware (hooks)
+Built-in validation
+Simpler syntax
+Better code organization
+23. Explain the flow when a user registers.
+
+A good answer:
+
+User fills the registration form.
+Frontend sends the data to the Express API.
+Express validates the request.
+Password is hashed.
+A Mongoose model creates a document.
+MongoDB stores it in the users collection.
+The API returns a success response.
+Questions based on your MERN project
+
+Since you've mentioned a MERN project in previous discussions, expect questions like:
+
+Why did you choose MongoDB?
+What collections did you create?
+What fields were in the User collection?
+How did you connect Express to MongoDB?
+What is a Mongoose schema?
+How did you perform CRUD operations?
+How did you authenticate users with JWT?
+How did you handle invalid input before saving to the database?
+Did you use indexes? Why or why not?
+
+
+///express connection with mongo dbHow did you connect Express to MongoDB?
+
+This is one of the most common interview questions. The interviewer wants to know whether you understand how your backend communicates with the database.
+
+Interview Answer (1 minute)
+
+"I connected Express to MongoDB using Mongoose. First, I installed the mongoose package. Then, I stored the MongoDB connection string in a .env file for security. In my application, I used mongoose.connect() with the connection URI. Once the connection was successful, my Express server could use Mongoose models to perform CRUD operations on the MongoDB database."
+
+Step-by-Step Flow
+React Frontend
+       │
+       ▼
+Express Server
+       │
+       ▼
+Mongoose
+       │
+       ▼
+MongoDB Database
+
+When a user registers:
+
+User fills form
+        │
+        ▼
+React sends POST request
+        │
+        ▼
+Express receives request
+        │
+        ▼
+Mongoose converts JavaScript object
+        │
+        ▼
+MongoDB stores document
+Step 1: Install Mongoose
+npm install mongoose
+Step 2: Store the connection string
+
+.env
+
+MONGO_URI=mongodb://localhost:27017/myDatabase
+
+Or, if you're using MongoDB Atlas:
+
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/myDatabase
+Step 3: Connect in Express
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    console.log("Database Connected");
+})
+.catch((err) => {
+    console.log(err);
+});
+
+This opens a connection between your Express application and the MongoDB server.
+
+Step 4: Create a Schema and Model
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String
+});
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
+Step 5: Store Data
+const User = require("./models/User");
+
+app.post("/register", async (req, res) => {
+    const user = await User.create(req.body);
+
+    res.json(user);
+});
+
+When User.create() runs:
+
+Express
+   │
+   ▼
+User Model
+   │
+   ▼
+Mongoose
+   │
+   ▼
+MongoDB
+
+The document is inserted into the users collection.
+
+If the interviewer asks, "Why did you use Mongoose?"
+
+You can answer:
+
+"Mongoose is an ODM (Object Data Modeling) library for MongoDB. It lets me define schemas, validate data, interact with the database using JavaScript objects, and perform CRUD operations more easily than using the native MongoDB driver."
+
+Follow-up Question: "What happens when mongoose.connect() is called?"
+
+A strong answer is:
+
+"mongoose.connect() establishes a connection to the MongoDB server using the connection URI. Once the connection is successful, Mongoose manages that connection, allowing the Express application to execute queries like find(), create(), updateOne(), and deleteOne() through the defined models."
+
+Interview Tips:-
+
+"In my project, I used MongoDB Atlas as the cloud database. I stored the Atlas connection string in a .env file, connected to it with mongoose.connect(), and used Mongoose models to perform CRUD operations from my Express backend."

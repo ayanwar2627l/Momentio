@@ -1,0 +1,48 @@
+STEP 1:- inside backend
+npm init -y
+This creates:
+backend/package.json
+
+Step 2: Install backend packages
+
+npm install express mongoose dotenv cors bcryptjs jsonwebtoken
+npm install -D nodemon
+
+express       → creates backend server and API routes
+mongoose      → connects Node.js to MongoDB using models/schemas
+dotenv        → loads secret values from .env file
+cors          → allows frontend to talk to backend (cross origin resource sharing)     
+bcryptjs      → hashes passwords
+jsonwebtoken  → creates/verifies login tokens
+nodemon       → restarts server automatically during development
+
+JWTs are commonly created using jwt.sign(...) and checked using jwt.verify(...)
+
+
+STEP 4. backend folder structure
+backend/
+├── config/
+├── controllers/
+├── middleware/
+├── models/
+├── routes/
+├── server.js
+└── .env
+
+STEP 5 :- fill .env with
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/momentio
+JWT_SECRET=momentio_super_secret_key
+NODE_ENV=development
+
+Database URL
+JWT secret key
+API keys
+Port number
+
+STEP 6:- Create Database connection file
+backend/config/db.js
+
+STEP 7:- Create Server.js
+backend/server.js
+ 
