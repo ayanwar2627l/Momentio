@@ -98,3 +98,16 @@ token
 Frontend stores it and sends it with protected requests:
 Authorization: Bearer token_here
 Backend verifies the token to know who the user is.
+
+Step 5:- Create auth Middleware
+backend/middleware/authMiddleware.js
+
+**Backend Insight: What is middleware?
+Middleware runs before your controller.
+
+For example:
+router.get("/me", protect, getMe);
+This means:
+First run protect
+If token is valid, run getMe
+If token is invalid, stop request
