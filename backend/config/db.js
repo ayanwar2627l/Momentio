@@ -8,7 +8,7 @@ async function connectDB(){
         console.log(`MongoDB Connected : ${conn.connection.host}`);
     }catch (error){
         console.error(`MongoDB connection error ${error.message}`);
-        process.exit();
+        process.exit(1);//immediately exits the node application 
     }
 }
 //this file establish connection between Backend server to MongoDB
