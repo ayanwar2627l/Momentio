@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("momentio-user");
@@ -13,6 +15,10 @@ export function AuthProvider({ children }) {
     return null;
   });
 
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem("momentio-token") || null;
+  });
+
   useEffect(() => {
     if (user) {
       localStorage.setItem("momentio-user", JSON.stringify(user));
@@ -21,58 +27,73 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
-  function register(userData) {
-    const newUser = {
-      id: crypto.randomUUID(),
-      name: userData.name,
-      email: userData.email,
-    };
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("momentio-token", token);
+    } else {
+      localStorage.removeItem("momentio-token");
+    }
+  }, [token]);
 
-    localStorage.setItem(
-      "momentio-registered-user",
-      JSON.stringify({
-        ...newUser,
-        password: userData.password,
-      })
-    );
+  async function register(userData) {
+    const response = await fetch(`${API_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
-    setUser(newUser);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed");
+    }
+
+    setUser(data.user);
+    setToken(data.token);
+
+    return data;
   }
 
-  function login(email, password) {
-    const savedUser = localStorage.getItem("momentio-registered-user");
+  async function login(email, password) {
+    const response = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
-    if (!savedUser) {
-      throw new Error("No account found. Please register first.");
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
     }
 
-    const parsedUser = JSON.parse(savedUser);
+    setUser(data.user);
+    setToken(data.token);
 
-    if (parsedUser.email !== email || parsedUser.password !== password) {
-      throw new Error("Invalid email or password.");
-    }
-
-    const loggedInUser = {
-      id: parsedUser.id,
-      name: parsedUser.name,
-      email: parsedUser.email,
-    };
-
-    setUser(loggedInUser);
+    return data;
   }
 
   function logout() {
     setUser(null);
+    setToken(null);
   }
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        token,
         register,
         login,
         logout,
-        isAuthenticated: !!user,
+        isAuthenticated: !!user && !!token,
       }}
     >
       {children}

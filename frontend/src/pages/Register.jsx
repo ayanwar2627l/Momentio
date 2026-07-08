@@ -13,6 +13,7 @@ function Register() {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -25,7 +26,7 @@ function Register() {
     setError("");
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password) {
@@ -38,9 +39,17 @@ function Register() {
       return;
     }
 
-    register(formData);
+    try {
+      setLoading(true);
 
-    navigate("/dashboard");
+      await register(formData);
+
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -105,9 +114,10 @@ function Register() {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
+            disabled={loading}
+            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-medium hover:bg-indigo-700 transition disabled:opacity-60"
           >
-            Register
+            {loading ? "Creating account..." : "Register"}
           </button>
         </form>
 
