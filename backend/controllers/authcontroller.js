@@ -1,7 +1,7 @@
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
-const User=require("../models/User");
-const { findOne } = require("../models/Users");
+const User=require("../models/Users");
+// User model is already imported above via require("../models/User")
 
 function generateToken(userId){
     return jwt.sign({id:userId},process.env.JWT_SECRET,{
@@ -81,6 +81,7 @@ async function loginUser(req,res){
                 message: "Invalid email or pass/Password is incorrect",
             });
         }
+        const token = generateToken(user._id);
         return res.status(200).json({
             message:"Login Successful",
             token,
@@ -103,7 +104,7 @@ async function loginUser(req,res){
 //GET /api/auth/me
 async function getMe(req,res){
     res.status(200).json({
-        user: req.user,,
+        user: req.user,
     });
 }
 

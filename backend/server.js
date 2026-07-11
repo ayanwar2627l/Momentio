@@ -2,6 +2,8 @@ const express=require("express");
 const dotenv=require("dotenv");
 const cors=require("cors");
 const connectDB=require("./config/db");
+const { registerUser, loginUser, getMe } = require("./controllers/authcontroller");
+const protect = require("./middleware/authMiddleware");
 
 dotenv.config();// this makes .env accessible like "process.env.PORT"
 
@@ -17,6 +19,11 @@ app.get("/",(req,res)=>{
         message: "Momentio API is running",
     });
 });
+
+// Auth routes
+app.post("/api/auth/register", registerUser);
+app.post("/api/auth/login", loginUser);
+app.get("/api/auth/me", protect, getMe);
 
 const PORT =process.env.PORT||5000;
 

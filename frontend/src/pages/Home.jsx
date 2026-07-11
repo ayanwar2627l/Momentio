@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Home() {
+  const { isAuthenticated } = useAuth();
   return (
     <section className="min-h-[calc(100vh-80px)] flex items-center">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
@@ -19,19 +21,30 @@ function Home() {
           </p>
 
           <div className="mt-8 flex gap-4">
-            <Link
-              to="/register"
-              className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
-            >
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                to="/dashboard"
+                className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/register"
+                  className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition"
+                >
+                  Get Started
+                </Link>
 
-            <Link
-              to="/login"
-              className="border border-slate-300 px-6 py-3 rounded-xl font-medium hover:bg-slate-100 transition"
-            >
-              Login
-            </Link>
+                <Link
+                  to="/login"
+                  className="border border-slate-300 px-6 py-3 rounded-xl font-medium hover:bg-slate-100 transition"
+                >
+                  Login
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
